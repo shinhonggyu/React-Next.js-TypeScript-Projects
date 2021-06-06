@@ -1,6 +1,6 @@
-**data fetching with React hooks**
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-```js
 const App = () => {
   const [data, setData] = useState({ hits: [] });
 
@@ -31,6 +31,5 @@ const App = () => {
     </ul>
   );
 };
-```
 
-**useEffect complete**
+export default App;

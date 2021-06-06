@@ -1,34 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, Fragment } from 'react';
+import { useHacKerNewsApi } from './hooks/useHackerNewsApi';
 
 const App = () => {
-  const [data, setData] = useState({ hits: [] });
-
-  // useEffect(() => {
-  //   fetch('https://hn.algolia.com/api/v1/search?query=redux')
-  //     .then((res) => res.json())
-  //     .then((result) => setData(result));
-  // });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios(
-        'https://hn.algolia.com/api/v1/search?query=redux'
-      );
-      setData(result.data);
-    };
-
-    fetchData();
-  }, []);
+  const [query, setQuery] = useState('redux');
+  const [{ data, isLoading, isError }, doFetch] = useHacKerNewsApi(
+    'https://hn.algolia.com/api/v1/search?query=redux',
+    { hits: [] }
+  );
 
   return (
-    <ul>
-      {data.hits.map((item) => (
-        <li key={item.objectID}>
-          <a href={item.url}>{item.title}</a>
-        </li>
-      ))}
-    </ul>
+    <Fragment>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+
+          doFetch(`http://hn.algolia.com/api/v1/search?query=${query}`);
+        }}
+      >
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button
+          style={{
+            opacity: isLoading ? 0.3 : 1,
+          }}
+          type="submit"
+        >
+          {isLoading ? 'Saving..' : 'Search'}
+        </button>
+      </form>
+
+      {isError && <h3>Something went wrong ...</h3>}
+
+      {isLoading ? (
+        <h3>Loading...</h3>
+      ) : (
+        <ul>
+          {data.hits.map((item) => (
+            <li key={item.objectID}>
+              <a href={item.url}>{item.title}</a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Fragment>
   );
 };
 

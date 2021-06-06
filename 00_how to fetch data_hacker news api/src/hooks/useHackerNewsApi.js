@@ -1,30 +1,60 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useReducer } from 'react';
+
+const dataFetchReducer = (state, action) => {
+  if (action.type === 'FETCH_INIT') {
+    return {
+      ...state,
+      isLoading: true,
+      isError: false,
+    };
+  }
+  if (action.type === 'FETCH_SUCCESS') {
+    return {
+      ...state,
+      isLoading: false,
+      isError: false,
+      data: action.payload,
+    };
+  }
+  if (action.type === 'FETCH_FAIL') {
+    return {
+      ...state,
+      isLoading: false,
+      isError: true,
+    };
+  }
+  return new Error();
+};
 
 export const useHacKerNewsApi = (initialUrl, initialData) => {
-  const [data, setData] = useState(initialData);
   const [url, setUrl] = useState(initialUrl);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const initialState = {
+    isLoading: false,
+    isError: false,
+    data: initialData,
+  };
+
+  const [dataFetchstate, dataFetchDispatch] = useReducer(
+    dataFetchReducer,
+    initialState
+  );
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsError(false);
-      setIsLoading(true);
+      dataFetchDispatch({ type: 'FETCH_INIT' });
 
       try {
         const result = await axios(url);
 
-        setData(result.data);
+        dataFetchDispatch({ type: 'FETCH_SUCCESS', payload: result.data });
       } catch (error) {
-        setIsError(true);
+        dataFetchDispatch({ type: 'FETCH_FAIL' });
       }
-
-      setIsLoading(false);
     };
 
     fetchData();
   }, [url]);
 
-  return [{ data, isLoading, isError }, setUrl];
+  return [dataFetchstate, setUrl];
 };

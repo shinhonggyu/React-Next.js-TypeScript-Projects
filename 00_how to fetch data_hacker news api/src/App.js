@@ -3,7 +3,7 @@ import { useHacKerNewsApi } from './hooks/useHackerNewsApi';
 
 const App = () => {
   const [query, setQuery] = useState('redux');
-  const [{ data, isLoading, isError }, doFetch] = useHacKerNewsApi(
+  const [dataFetchstate, doFetch] = useHacKerNewsApi(
     'https://hn.algolia.com/api/v1/search?query=redux',
     { hits: [] }
   );
@@ -24,21 +24,21 @@ const App = () => {
         />
         <button
           style={{
-            opacity: isLoading ? 0.3 : 1,
+            opacity: dataFetchstate.isLoading ? 0.3 : 1,
           }}
           type="submit"
         >
-          {isLoading ? 'Saving..' : 'Search'}
+          {dataFetchstate.isLoading ? 'Saving..' : 'Search'}
         </button>
       </form>
 
-      {isError && <h3>Something went wrong ...</h3>}
+      {dataFetchstate.isError && <h3>Something went wrong ...</h3>}
 
-      {isLoading ? (
+      {dataFetchstate.isLoading ? (
         <h3>Loading...</h3>
       ) : (
         <ul>
-          {data.hits.map((item) => (
+          {dataFetchstate.data.hits.map((item) => (
             <li key={item.objectID}>
               <a href={item.url}>{item.title}</a>
             </li>

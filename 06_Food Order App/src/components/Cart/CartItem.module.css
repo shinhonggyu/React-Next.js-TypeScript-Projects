@@ -32,8 +32,6 @@
   color: #363636;
 }
 
-/* 
-
 .actions {
   display: flex;
   flex-direction: column;
@@ -64,4 +62,4 @@
 .cart-item button:active {
   background-color: #8a2b06;
   color: white;
-} */
+}

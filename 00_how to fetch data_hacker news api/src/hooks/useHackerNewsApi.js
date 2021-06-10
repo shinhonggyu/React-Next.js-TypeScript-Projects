@@ -41,19 +41,31 @@ export const useHacKerNewsApi = (initialUrl, initialData) => {
   );
 
   useEffect(() => {
+    let didCancel = false;
+
     const fetchData = async () => {
       dataFetchDispatch({ type: 'FETCH_INIT' });
 
       try {
         const result = await axios(url);
 
-        dataFetchDispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+        if (!didCancel) {
+          dataFetchDispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+        }
       } catch (error) {
-        dataFetchDispatch({ type: 'FETCH_FAIL' });
+        if (!didCancel) {
+          dataFetchDispatch({ type: 'FETCH_FAIL' });
+        }
       }
     };
 
     fetchData();
+
+    // If the component did unmount, the flag should be set to true which results in preventing
+    // to set the component state after the data fetching has been asynchronously resolved eventually.
+    return () => {
+      let didCancel = true;
+    };
   }, [url]);
 
   return [dataFetchstate, setUrl];

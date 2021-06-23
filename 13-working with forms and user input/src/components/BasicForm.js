@@ -1,7 +1,7 @@
 import useInput from '../hooks/use-input';
 
 const isNotEmpty = (value) => value.trim() !== '';
-const isEmali = (value) => value.includes('@');
+const isEmail = (value) => value.includes('@');
 
 const BasicForm = (props) => {
   const {
@@ -27,7 +27,7 @@ const BasicForm = (props) => {
     valueChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
     reset: resetEmail,
-  } = useInput(isEmali);
+  } = useInput(isEmail);
 
   let formIsValid = false;
 

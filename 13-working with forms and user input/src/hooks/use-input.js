@@ -1,50 +1,28 @@
-import { useReducer } from 'react';
-
-const initialInputState = {
-  value: '',
-  isTouched: false,
-};
-
-// previous state snapshot
-const inputStateReducer = (state, action) => {
-  // new state snapshot
-  if {action.type === 'INPUT'} {
-    return { value: action.value, isTouched: state.isTouched }
-  }
-  if (action.type === 'BLUR') {
-    return { isTouched: true, value: state.value }
-  }
-  if (action.type === 'RESET') {
-    return { isTouched: false, value: '' }
-  }
-  return initialInputState;
-};
+import { useState } from 'react';
 
 const useInput = (validateValue) => {
-  const [inputState, dispatch] = useReducer(
-    inputStateReducer,
-    initialInputState
-  );
+  console.log('useInput');
+  const [enteredValue, setEnteredValue] = useState('');
+  const [isTouched, setIsTouched] = useState(false);
 
-  // stateful logic
-  // should be generic - it's not limited to one specific input!
-  const valueIsValid = validateValue(inputState.value);
-  const hasError = !valueIsValid && inputState.isTouched;
+  const valueIsValid = validateValue(enteredValue);
+  const hasError = !valueIsValid && isTouched;
 
   const valueChangeHandler = (event) => {
-    dispatch({ type: 'INPUT', value: event.target.value });
+    setEnteredValue(event.target.value);
   };
 
   const inputBlurHandler = () => {
-    dispatch({ type: 'BLUR' });
+    setIsTouched(true);
   };
 
   const reset = () => {
-    dispatch({ type: 'RESET' });
+    setEnteredValue('');
+    setIsTouched(false);
   };
 
   return {
-    value: inputState.value,
+    value: enteredValue,
     isValid: valueIsValid,
     hasError,
     valueChangeHandler,

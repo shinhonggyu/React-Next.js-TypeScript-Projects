@@ -10,37 +10,35 @@ const AvailableMeals = () => {
 
   useEffect(() => {
     const fetchMeals = async () => {
-      try {
-        const resp = await fetch(
-          'https://react-http-fce6f-default-rtdb.firebaseio.com/meals.json'
-        );
+      const response = await fetch(
+        'https://react-http-fce6f-default-rtdb.firebaseio.com/meals.json'
+      );
 
-        if (!resp.ok) {
-          throw new Error('Something went wrong');
-        }
-
-        const responseData = await resp.json();
-
-        const loadedMeals = [];
-
-        for (const keys in responseData) {
-          loadedMeals.push({
-            id: keys,
-            name: responseData[keys].name,
-            description: responseData[keys].description,
-            price: responseData[keys].price,
-          });
-        }
-
-        setMeals(loadedMeals);
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-        setHttpError(error.message);
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
       }
+
+      const responseData = await response.json();
+
+      const loadedMeals = [];
+
+      for (const key in responseData) {
+        loadedMeals.push({
+          id: key,
+          name: responseData[key].name,
+          description: responseData[key].description,
+          price: responseData[key].price,
+        });
+      }
+
+      setMeals(loadedMeals);
+      setIsLoading(false);
     };
 
-    fetchMeals();
+    fetchMeals().catch((error) => {
+      setIsLoading(false);
+      setHttpError(error.message);
+    });
   }, []);
 
   if (isLoading) {

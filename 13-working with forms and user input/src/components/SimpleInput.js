@@ -33,11 +33,9 @@ const SimpleInput = (props) => {
     }
 
     console.log(enteredName);
-    console.log(enteredEmail);
 
-    resetNameInput();
-
-    resetEmailInput();
+    resetNameInput('');
+    resetEmailInput('');
   };
 
   const nameInputClasses = nameInputHasError
@@ -59,10 +57,12 @@ const SimpleInput = (props) => {
           onBlur={nameBlurHandler}
           value={enteredName}
         />
-        {nameInputHasError && <p className="error-text">Name must not empty</p>}
+        {nameInputHasError && (
+          <p className="error-text">Name must not be empty.</p>
+        )}
       </div>
       <div className={emailInputClasses}>
-        <label htmlFor="email">Your E-Mail</label>
+        <label htmlFor="email">Your E-mail</label>
         <input
           type="email"
           id="email"
@@ -71,7 +71,7 @@ const SimpleInput = (props) => {
           value={enteredEmail}
         />
         {emailInputHasError && (
-          <p className="error-text">please enter a valid email</p>
+          <p className="error-text">please enter a valid email.</p>
         )}
       </div>
       <div className="form-actions">

@@ -37,6 +37,8 @@ const CreateWrod = () => {
     }
   };
 
+  console.log('rendering')
+
   return (
     <form onSubmit={submitHandler}>
       <div className="input_area">

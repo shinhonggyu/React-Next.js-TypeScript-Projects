@@ -4,26 +4,27 @@ import classes from './Counter.module.css';
 import { incrementCount } from '../store/actions';
 import { decrementCount } from '../store/actions';
 import { increaseCount } from '../store/actions';
+import { counterActions } from '../store/counter';
 
 const Counter = () => {
   const dispatch = useDispatch();
-  const counter = useSelector((state) => state.counter);
-  const show = useSelector((state) => state.showCounter);
+  const counter = useSelector((state) => state.counter.counter);
+  const show = useSelector((state) => state.counter.showCounter);
 
   const incrementHandler = () => {
-    dispatch(incrementCount());
+    dispatch(counterActions.increment());
   };
 
   const increaseHandler = () => {
-    dispatch(increaseCount());
+    dispatch(counterActions.increase(10));
   };
 
   const decrementHandler = () => {
-    dispatch(decrementCount());
+    dispatch(counterActions.decrement());
   };
 
   const toggleCounterHandler = () => {
-    dispatch({ type: 'toggle' });
+    dispatch(counterActions.toggleCounter());
   };
 
   return (
@@ -32,7 +33,7 @@ const Counter = () => {
       {show && <div className={classes.value}>{counter}</div>}
       <div>
         <button onClick={incrementHandler}>Increment</button>
-        <button onClick={increaseHandler}>Increase by 5</button>
+        <button onClick={increaseHandler}>Increase by 10</button>
         <button onClick={decrementHandler}>Decrement</button>
       </div>
       <button onClick={toggleCounterHandler}>Toggle Counter</button>

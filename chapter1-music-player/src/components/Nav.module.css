@@ -18,3 +18,9 @@
   background: rgb(66, 66, 66);
   color: white;
 }
+
+@media (max-width: 768px) {
+  .nav button {
+    z-index: 10;
+  }
+}

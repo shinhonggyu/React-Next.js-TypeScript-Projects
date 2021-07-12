@@ -20,3 +20,9 @@
 .library h2 {
   padding: 2rem;
 }
+
+@media (max-width: 768px) {
+  .library {
+    width: 100%;
+  }
+}

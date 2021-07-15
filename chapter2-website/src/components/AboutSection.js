@@ -1,32 +1,36 @@
 import home1 from '../img/home1.png';
+import home2 from '../img/신홍규.jpg';
 import { About, Description, Hide, Image } from '../styles';
+import { motion } from 'framer-motion';
+import { titleAnim, fade, photoAnim } from '../animation';
+import Wave from './Wave';
 
 const AboutSection = () => {
   return (
     <About>
       <Description>
-        <div className="title">
+        <motion.div>
           <Hide>
-            <h2>We work to make</h2>
+            <motion.h2 variants={titleAnim}>My Portfolio</motion.h2>
           </Hide>
           <Hide>
-            <h2>
-              your <span>dreams</span> come
-            </h2>
+            <motion.h2 variants={titleAnim}>
+              my <span>dream</span>
+            </motion.h2>
           </Hide>
           <Hide>
-            <h2>true.</h2>
+            <motion.h2 variants={titleAnim}>software engineer</motion.h2>
           </Hide>
-        </div>
-        <p>
-          Contact us for any photography or videography ideaa that you have. we
-          have professionals with amazing skills.
-        </p>
-        <button>Contact Us</button>
+        </motion.div>
+        <motion.p variants={fade}>
+          안녕하세요. 저의 포트폴리오 홈페이지에 오신것을 환영합니다
+        </motion.p>
+        <motion.button variants={fade}>Contact Me</motion.button>
       </Description>
       <Image>
-        <img src={home1} alt="home1" />
+        <motion.img variants={photoAnim} src={home2} alt="home1" />
       </Image>
+      <Wave />
     </About>
   );
 };

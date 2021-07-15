@@ -10,8 +10,8 @@ const LibrarySong = ({
   const { cover, name, artist } = song;
 
   const songSelectHandler = async () => {
-    await setCurrentSong(song);
-
+    const response = await setCurrentSong(song);
+    // console.log(response); undefined
     if (isPlaying) audioRef.current.play();
   };
 

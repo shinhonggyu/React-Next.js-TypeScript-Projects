@@ -17,7 +17,7 @@ const getCurrentDay = () => {
     return `0${day}`;
   } else {
     return day;
-  }
+  
 };
 
 // Current day/month/year
@@ -36,3 +36,5 @@ const new_games = `games?key=${process.env.REACT_APP_API_KEY}&dates=${lastYear},
 export const popularGamesURL = () => `${base_url}${popular_games}`;
 export const upcomingGamesURL = () => `${base_url}${upcoming_games}`;
 export const newGamesURL = () => `${base_url}${new_games}`;
+
+// GAME DETAILS
